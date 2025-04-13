@@ -1,0 +1,45 @@
+---
+title: "Lab 04 von Karman Vortex Street"
+author: "David Kahler"
+date: '2025-04-13'
+output: pdf_document
+header-includes: 
+      \usepackage{amsmath}
+---
+**CIVE 302: Fluid Mechanics**  
+**Duquesne University**  
+
+```{r include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(readr)
+library(tidyr)
+library(lubridate)
+library(latex2exp)
+
+x <- read_csv("vec20250412122224.csv", col_names = FALSE)
+x <- rename(x, time=X2, u=X5, v=X6, w1=X7, w2=X8)
+```
+
+```{r echo=FALSE, message=FALSE}
+y <- x %>%
+     filter(time>10) %>%
+     filter(time<=20) %>%
+     select(time, u, v, w1, w2)
+
+x_mean = mean(y$u)
+```
+
+`r x_mean`
+
+```{r echo=FALSE, message=FALSE}
+ggplot(y) +
+     geom_line(aes(x=time,y=v)) +
+     theme(panel.background = element_rect(fill = "white", colour = "black")) +
+     labs(x = "Time (s)", y = "Velocity (m/s)") +
+     theme(aspect.ratio = 1) +
+     theme(axis.text = element_text(face = "plain", size = 14)) +
+     theme(axis.title = element_text(face = "plain", size = 14))
+```
+
