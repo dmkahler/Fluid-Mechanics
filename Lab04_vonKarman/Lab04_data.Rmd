@@ -1,5 +1,5 @@
 ---
-title: "Lab 04 von Karman Vortex Street"
+title: "Lab 04: von Karman Vortex Street"
 author: "David Kahler"
 date: '2025-04-13'
 output: pdf_document
@@ -8,6 +8,91 @@ header-includes:
 ---
 **CIVE 302: Fluid Mechanics**  
 **Duquesne University**  
+
+## Background
+The von Karman vortex street is one of the most amazing phenomena in all of fluid mechanics.  What is even more amazing is the unique settings where you can observe this vortex shedding.  Simply put, the von Karman vortex street is an oscillation on the downwind/downstream/lee side of an obstruction caused by alternating vortex detachment from each side of the obstruction.  One of the quintessential settings for this is the waving flag; in this case the flagpole is the obstruction and the flag is a (somewhat) passive tracer of the oscillation.  Another great place you can observe the von Karman vortex street is in the atmosphere.  In the linked video, watch the passive tracer of the clouds show the oscillation.  
+
+[NOAA video of vorticies](https://youtu.be/LfDyIB6J8kM)  
+
+The von Karman vortex street is also observable behind a bridge support; something that we have plenty of in Pittsburgh (this is visible in the video linked under the CFD section).  
+
+## Objectives  
+In this computational/laboratory experiment, you will investigate the oscillating vortex shedding behind an obstruction, similar to that explained above.  You will gain experience with measuring flume velocity and making flow observations as well as running a computational fluid dynamics (CFD) simulation of the von Karman vortex street, which provides a computational laboratory to make observations and record data.  
+
+## Dimensional Analysis  
+The Buckingham Pi theorem states that a system that can be described by $m$ variables, which exist in $n$ dimensions, can be described by $m-n$ unique dimensionless terms, usually signified as $\Pi_{i}$, where $i \in (m-n)$.  The variables are generally the variables that we use in fluid mechanics and the dimensions are quantities such as length, $L$, time, $T$, or mass, $M$.  Keep in mind that quantities such as velocity are really $L/T$ or volume is really $L^3$.  Force, $F$, can also be used; however, if force is used, mass cannot be used as they are not independent.  Recall, $F = \frac{M L}{T^2}$.  
+
+Here, we consider the oscillation of the vortices; therefore, we will consider frequency.  We also consider the flow in terms of velocity, density, and viscosity, and the obstruction width.  The parameters can be organized to give frequency, $\omega$, as a function, $\phi$, of the other variables:  
+
+\begin{equation}  
+\omega = \phi (u, D, \rho, \mu)  
+\end{equation}  
+
+Table 1: Variables and dimensions in two-dimensional flow past an obstruction.  
+
+|Symbol   |Variable          |Dimension       |Units (SI)          |  
+|---------|------------------|----------------|--------------------|  
+|$\omega$ |frequency         |$\frac{1}{T}$   |Hz or $\frac{1}{s}$ |  
+|$u$      |velocity          |$\frac{L}{T}$   |$m/s$               |  
+|$D$      |obstruction width |$L$             |$m$                 |  
+|$\rho$   |fluid density     |$\frac{M}{L^3}$ |$\frac{kg}{m^3}$    |  
+|$\mu$    |dynamic viscosity |$\frac{M}{L T}$ |$\frac{kg}{m s}$    |  
+
+We seek $5-3=2$ unique dimensionless variables, or $\Pi$ terms.  From experience, we begin with one $\Pi$ as the Reynolds number, $\mathrm{Re}$, then we form the second.  
+
+\begin{equation}  
+\Pi_1 = \mathrm{Re} = \frac{\rho D u}{\mu} = \frac{\frac{kg}{m^3} m \frac{m}{s}}{\frac{kg}{m s}} = \frac{kg \ m \ m \ m \ s}{m^3 \ s \ kg}  
+\end{equation}  
+
+which leaves frequency as the remaining variable:  
+
+\begin{equation}  
+\Pi_2 = \omega \times T  
+\end{equation}  
+
+Since we need to get rid of the time in the frequency, we seek another variable with the units of seconds or combination of variables that result in seconds; luckily, we have a simple solution with the combination of length and velocity.  Alternatively, we could consult a table of standard dimensionless numbers.  This is more commonly known as the Strouhal number.  
+
+\begin{equation}  
+\Pi_2 = \mathrm{St} = \frac{\omega D}{u}  
+\end{equation}  
+
+To resolve $\mathrm{St} = \phi(\mathrm{Re})$, we need to determine the function that relates Re to St.  There are, of course, some limitations of this dimensional analysis; namely, we assumed a boundless domain, which neglects surface tension, bed friction, edge effects, and others.  
+
+## Computational Fluid Dynamics  
+We will use COMSOL as a numerical laboratory to simulate the [von Karman vortex street](https://youtu.be/AajBslrfoRI) and collect data.
+Watch this [video](https://youtu.be/ZeXLJNWU9wA) on how to set up the model.  You may make observations of the result and alter the model to run more efficiently for the result that we desire, namely, frequency.  After making these changes, you should run the simulation multiple times to resolve the function, $\mathrm{St} = \phi(\mathrm{Re})$.  Use a spreadsheet to organize your data and form the two dimensionless variables.  
+
+COMSOL setup:  
+ - Model wizard  
+ - 2D model  
+ - Fluid Flow -> Single-Phase Flow -> Laminar Flow -> Add -> Study  
+ - Study -> Time Dependent -> Done  
+ - Geometry -> Rectangle, 20 cm x 10 cm  
+ - Geometry -> Circle, 0.5 cm radius  
+ - Geometry -> Booleans and Partitions -> Difference -> Add rectangle, subtract circle  
+ - Geometry -> select Form Union -> Build All Objects  
+ - Materials -> Add Material from Library -> Built-in -> water, liquid -> Add to Component  
+ - Laminar Flow -> Incompressible Flow (which should be by default)  
+ - Laminar Flow -> Inlet -> select left boundary  
+ - Laminar Flow -> Inlet -> Laminar Inflow -> Average Velocity 0.1 m/s (to start)  
+ - Laminar Flow -> Inlet -> Entrance Length -> 0.02 m  
+ - Laminar Flow -> Outlet -> select right boundary  
+ - Laminar Flow -> Outlet -> suppress backflow (which should be checked by default)  
+ - If convergence fails, consider an initial value under  
+ - - Laminar Flow -> Initial Values 1 -> x direction -> select about 90% of the inlet average velocity  
+ - Mesh 1 -> Mesh Settings -> Finer  
+ - Study 1 -> Step 1: Time Dependent -> Times -> range(0,0.01,50), which means start at 0 s and move ahead with a time step of 0.01 s until you get to 50 s.  
+ - Study 1 -> Compute, now wait  
+
+To generate a list of St and Re, change the diameter of the obstruction and velocity (Re) and observe the resultant frequency (St).  You may also wish to adjust the Re by means of the fluid; this suggests water; however, you could change the viscosity.  
+
+### Example Results  
+
+
+## Flume Experiment
+For this component of the experiment, we will use the laboratory flume with several obstructions.  We will measure the oscillations with an acoustic Doppler velocimeter (ADV) (Vectrino, Nortek, Boston, Massachusetts, USA).  
+
+### Example Results  
 
 ```{r include=FALSE}
 library(ggplot2)
@@ -31,7 +116,7 @@ y <- x %>%
 x_mean = mean(y$u)
 ```
 
-`r x_mean`
+Take the mean streamwise component to compute the average velocity for $\mathrm{Re}$.  In this case, we measure $\bar{x}=$`r x_mean`$m/s$.  
 
 ```{r echo=FALSE, message=FALSE}
 ggplot(y) +
@@ -42,4 +127,36 @@ ggplot(y) +
      theme(axis.text = element_text(face = "plain", size = 14)) +
      theme(axis.title = element_text(face = "plain", size = 14))
 ```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+v_freq  <- Mod(fft(y$v))
+freq <- (seq(0,(length(v_freq)-1))) / (finish - begin)
+v_freq <- data.frame(freq, v_freq) %>%
+     rename(Frequency = freq, `FFT` = v_freq)
+
+ggplot(v_freq) +
+     geom_line(aes(x=Frequency,y=`FFT`)) +
+     xlim(c(0,10)) +
+     theme(panel.background = element_rect(fill = "white", colour = "black")) +
+     theme(aspect.ratio = 1) +
+     theme(axis.text = element_text(face = "plain", size = 14)) +
+     theme(axis.title = element_text(face = "plain", size = 14))
+```
+
+$\nu =$`r v_freq$Frequency[which(v_freq$FFT == max(v_freq$FFT))]`$Hz$.
+
+
+
+With a laboratory flume, you can change the obstruction size and velocity.  Unfortunately, due to the small width of the flume, we are limited in the range of obstruction sizes.  Again, the goal is to plot the function,  $\mathrm{St} = \phi(\mathrm{Re})$.  
+
+For this lab activity, please bring:
+ - Lab notebook (anything will do) and pen
+ - Calculator (not necessary, but could be convenient)
+
+## Laboratory Report  
+For your report, please prepare a document (individually, but you may collaborate on the figures) that includes:  
+ - A discussion of dimensional analysis and similitude (use your textbook) (about 200 words)  
+ - An overview of the methods (a detailed bulleted list)  
+ - Results and discussion for the computational and field components of the activity with figures prepared in vector (.eps) format and captions (about 300 words)  
+
 
