@@ -1,0 +1,55 @@
+---
+title: "Dimensional Analysis"
+author: "David Kahler"
+output: pdf_document
+header-includes: 
+      \usepackage{amsmath}
+---
+**ENVI 580: Fluid Mechanics**  
+**Duquesne University**  
+
+```{r include=FALSE}
+library(ggplot2)
+library(latex2exp)
+library(dplyr)
+library(broom)
+```
+
+## Buckingham Pi Theorem  
+
+## Typical Dimensionless Terms  
+
+## Application  
+\begin{equation}  
+\Pi_1 = \frac{D \ \Delta p}{\rho u^2}
+\end{equation}  
+\begin{equation}  
+\Pi_2 = \frac{\rho u D}{\mu} = \mathrm{Re}
+\end{equation}  
+
+```{r echo=FALSE, warning=FALSE, fig.cap="Function developed from dimensional analysis that compares the two dimensionless quantities"}
+# parameters
+rho <- 2.34e-5 # $\frac{lbs \ s}{ft^2}$
+mu <- 1.94 # $\frac{slugs}{ft^3}$
+# physical model
+d <- 0.496/12 # $ft$
+l <- 5 # $ft$ length of pressure drop
+# data
+u <- c(1.17,1.95,2.91,5.84,11.13,16.92,23.34,28.73)
+p <- c(6.26,15.6,30.9,106,329,681,1200,1730)
+dp <- p/l
+# dimensionless quantities
+pi1 <- d * dp / (rho * u^2)
+Re <- rho * d * u / mu
+x <- data.frame(u,p,dp,pi1,Re)
+# plotting
+ggplot(x) +
+      geom_point(aes(x=Re,y=pi1)) +
+      xlab(TeX("$\\mathrm{Re}=\\frac{\\rho u D}{\\mu}$")) +
+      ylab(TeX("$\\mathrm{\\Pi_1}=\\frac{D \ \\Delta p}{\\rho u^2}$")) +
+      theme(panel.background = element_rect(fill = "white", colour = "black")) +
+      theme(aspect.ratio = 1) +
+      theme(axis.text = element_text(face = "plain", size = 12))
+```
+
+
