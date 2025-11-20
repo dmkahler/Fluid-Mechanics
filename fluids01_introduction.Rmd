@@ -22,6 +22,10 @@ I'll always remember what I was told on the first day of my fluid mechanics clas
 So, what is a fluid?  
 > A fluid is a material that deforms continuously under any shear stress.  
 
+How do we "do" fluid mechanics?  In engineering fluid mechanics, we consider fluids as a continuum.  Specifically, our calculations are limited to the segment of the continuum where the fluid properties are approximately equal at multiple scales.  To illustrate this concept, let's consider density at the scale of the mean free path (the average distance between molecules in a material).  If we measure the density in one spot, we might indeed measure zero!  If we expand slightly and include a molecule, we get a dramatically different measurement.  These measurements may change rapidly and severely in these small scales.  Eventually, we reach a point where the property, in this case, density, evens out and represents the material.  Similarly, eventually, our scale may become so large, that we cannot ensure that we are only measuring the material of interest.  Don't worry, this still gives us plenty of work to do fluid mechanics (Figure 1).
+
+![Illustration of the continuum hypothesis, figure from University of Sydney](fluid_figures/continuum.gif)
+
 So, what is a shear stress?  
 
 ![Shear Stress, from Bachtlin, 2021](fluid_figures/stress.png)  
@@ -72,7 +76,7 @@ Of course, this is just for Newtonian fluids (being temperature dependent).  The
 
 [Video of Oobleck](https://youtu.be/XjE24MAnDdY)  
 
-*Oobleck is a reference to the book Bartholomew and the Oobleck by Dr. Seuss, which describes a type of precipitation that had never been seen before.  It is commonly used to describe this easy-to-make non-Newtonian fluid.*  
+*Oobleck is a reference to the book Bartholomew and the Oobleck by Dr. Seuss, which describes a type of precipitation that had never been seen before.  It is commonly used to describe this easy-to-make non-Newtonian fluid.*  The material is typically made from roughly equal volumes of corn starch and water.  
 
 ### Reynolds Number  
 So, what?  We see how Reynolds number, $Re$, is a ratio of inertial to viscous forces; however, what does that mean?  Inertial forces means that the motion is dominant.  One aspect of fluid flow that is ever-present is the role of turbulence.  We can think of turbulence as a departure from the mean in velocity.  
@@ -93,7 +97,7 @@ Specific weight, a force: $\gamma=\rho g=\frac{m g}{V\llap{-}}$
 Specific gravity is a ratio of the density of a fluid to a reference fluid, usually water: $=\frac{\rho}{\rho_{H_2O}}$
 
 ### Surface Tension  
-Surface tension is the result of an imbalance of cohesive forces within a material.  The value of the surface tension coefficient is a function of the fluid interface.  In this course, we will just consider the free surface (liquid with air) but depending on your specialty, you may need to adjust for materials.  The units on surface tension is force per unit length, or, in SI units: $\frac{N}{m}$.  The last component is the contact angle with the solid surface.
+Surface tension is the result of an imbalance of cohesive forces within a material.  The value of the surface tension coefficient is a function of the fluid interface.  In this course, we will just consider the free surface (liquid with air) but depending on your specialty, you may need to adjust for materials.  The units on surface tension is force per unit length, or, in SI units: $\frac{N}{m}$.  The last component is the contact angle with the solid surface.  
 
 \begin{equation}
 F = \sigma 2 \pi r \cos{\alpha}  
@@ -109,6 +113,19 @@ where $r$ is the radius of contact (circular) and $\alpha$ is the contact angle.
 \begin{equation}
 h = \frac{2 \sigma \cos{\alpha}}{\gamma r}  
 \end{equation}  
+
+#### Paper clip activity  
+**Materials:**  
+- Beaker of water  
+- Paper clips  
+
+**Equipment**  
+- Ruler  
+- Balance  
+
+Take a paper clip from and place it gently on the surface of the beaker of water.  Can you make it rest on the surface?  Can you confirm that your paper
+
+As an example, we can compute a dimensionless number from surface tension.  While a bit trivial, note that 
 
 ### Shear Stress  
 One of the most important relationships in fluid forces is the shear stress equation:  
